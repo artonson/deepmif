@@ -1,0 +1,31 @@
+FROM pytorch/pytorch:2.1.1-cuda12.1-cudnn8-runtime
+
+# set env variables
+ENV TERM xterm
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# You should modify this to match your GPU compute capability
+ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 6.2 7.0 7.2 7.5 8.0 8.6"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+
+RUN python3 -m pip install \
+    open3d PyMCubes ipdb trimesh plyfile \
+    scikit-image wandb tqdm natsort pyquaternion \
+    pykitti opencv-python pycollada Pillow nptyping numpy \
+    easydict
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libgl1-mesa-glx \
+    tmux \
+    git \ 
+    libglib2.0-0 \
+    && apt-get clean
+
+WORKDIR /opt
+RUN git clone --recursive https://github.com/NVIDIAGameWorks/kaolin
+
+WORKDIR /opt/kaolin
+# RUN git checkout v0.13.0
+RUN pip3 install -r ./tools/requirements.txt
+RUN IGNORE_TORCH_VER=1 python3 setup.py develop

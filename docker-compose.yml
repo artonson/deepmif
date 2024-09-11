@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+  deepmif:
+    image: deepmif:latest
+    build:
+      context: docker
+      dockerfile: Dockerfile.dev
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app/deepmif
+      # - /media/:/media/
+      # - /mnt/hdd:/mnt/hdd/
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - PYTHONPATH=/app/deepmif
+      - DISPLAY=unix$DISPLAY
+    working_dir: /app
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
