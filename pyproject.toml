@@ -1,0 +1,79 @@
+[project]
+name = "deepmif" 
+
+version = "0.0.1" 
+
+description = "Dense lidar completion and semantic segmentation"
+
+readme = "README.md"
+
+requires-python = ">=3.9"
+
+
+license = {file = "LICENSE"}
+
+
+keywords = ["deepmif"]
+
+authors = [
+  {name = "Kutay Yilmaz", email = "kutay.yilmaz@tum.de" }
+]
+
+maintainers = [
+  {name = "Kutay Yilmaz", email = "kutay.yilmaz@tum.de" }
+]
+
+# Classifiers help users find your project by categorizing it.
+#
+# For a list of valid classifiers, see https://pypi.org/classifiers/
+# classifiers = [
+#   "Development Status :: 3 - Alpha",
+# 
+#   # Indicate who your project is intended for
+#   "Intended Audience :: Developers",
+#   "Topic :: Software Development :: Build Tools",
+# 
+#   # Pick your license as you wish
+#   "License :: OSI Approved :: MIT License",
+# 
+#   # Specify the Python versions you support here. In particular, ensure
+#   # that you indicate you support Python 3. These classifiers are *not*
+#   # checked by "pip install". See instead "python_requires" below.
+#   "Programming Language :: Python :: 3",
+#   "Programming Language :: Python :: 3.7",
+#   "Programming Language :: Python :: 3.8",
+#   "Programming Language :: Python :: 3.9",
+#   "Programming Language :: Python :: 3 :: Only",
+# ]
+
+dynamic = ["dependencies"]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.optional-dependencies] # Optional
+dev = ["check-manifest"]
+test = ["coverage", "unittest"]
+
+[project.urls]  # Optional
+"Homepage" = "https://github.com/artonson/deepmif"
+"Source" = "https://github.com/artonson/deepmif"
+
+[tool.isort]
+profile = "black"
+# The following would provide a command line executable called `sample`
+# which executes the function `main` from this package when invoked.
+# [project.scripts]  # Optional
+# sample = "sample:main"
+
+# This is configuration specific to the `setuptools` build backend.
+# If you are using a different build backend, you will need to change this.
+# [tool.setuptools]
+# If there are data files included in your packages that need to be
+# installed, specify them here.
+# package-data = {"sample" = ["*.dat"]}
+
+[build-system]
+# These are the assumed default build requirements from pip:
+# https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,74 @@
+setting:
+  name: "mai_city"
+  output_root: "./experiments/"
+  dataset_path: "/mnt/hdd/mai_city/bin"
+  dataset: kitti
+  sequence_num: 1
+  load:
+    use: False
+    model_path: ""
+  begin_frame: 0
+  end_frame: 100
+  every_frame: 1
+  device: "cuda"
+  gpu_id: "0"
+  seed: 3749581
+
+dataset_process:
+  min_range_m: 1.5
+  pc_radius_m: 50.0 # distance filter for each frame
+  vox_down_m: 0.05
+  sor_nn: 25 # SOR neighborhood size
+  sor_std: 2.5 # SOR std threshold
+
+lidar_sampler:
+  around_surface_sampling_num: 3
+  around_surface_sampling_dist: 0.05
+
+  free_space_sampling_num: 1
+  free_space_sampling_ratio: 0.9
+  free_space_sampling_start_dist: 0.2
+
+  occupied_space_sampling_num: 0
+  occupied_space_sampling_dist: 0.05
+
+  uniform_sampling: True
+
+network:
+  implicit_network:
+    multires_point: 0
+    layers: [256, 256, 256, 256]
+
+loss:
+  weights:
+    eikonal: 0.01
+    ray_monotonicity: 0.1
+    mif_sign: 0.1
+    mif_surface: 0.1
+
+octree:
+  leaf_vox_size: 0.2
+  tree_level_world: 12
+  tree_level_feat: 3
+  feature_dim: 8
+  feature_std: 0.05
+  poly_int_on: True
+  octree_from_surface_samples: True
+
+optimizer:
+  iters: 20001
+  batch_size: 4096
+  learning_rate: 0.01
+  weight_decay: 1e-7 # l2 regularization
+  lr_iters_reduce_ratio: 0.1
+  lr_level_reduce_ratio: 1.0
+  lr_decay_step: [10000, 50000, 100000]
+
+eval:
+  save:
+    use: True
+    model_iters: 4000
+    mesh_iters: 1000
+
+  marching_cubes:
+    resolution_m: 0.1 # reconstruction marching cubes resolution
